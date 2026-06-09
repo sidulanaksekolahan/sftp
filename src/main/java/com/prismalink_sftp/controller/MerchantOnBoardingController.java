@@ -30,7 +30,7 @@ public class MerchantOnBoardingController {
     public String ls() throws Exception {
 
         ProcessBuilder processBuilder =
-                new ProcessBuilder("ls", "-la");
+                new ProcessBuilder("ls", "-l", "/pten");
 
         Process process = processBuilder.start();
 
@@ -107,7 +107,7 @@ public class MerchantOnBoardingController {
     public String createFolder(@PathVariable("folderName") String folderName) throws Exception {
 
         ProcessBuilder processBuilder =
-                new ProcessBuilder("mkdir", "-p", "PTEN_IN/" + folderName);
+                new ProcessBuilder("mkdir", "-p", "/pten/PTEN_IN/" + folderName);
 
         Process process = processBuilder.start();
 
