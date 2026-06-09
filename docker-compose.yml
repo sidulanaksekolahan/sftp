@@ -43,7 +43,8 @@ volumes:
 #    ports:
 #      - "8081:8081"
 #    volumes:
-#      - /home/nofrets.poai/pten/PTEN_OUT:/downloads
+#     # - /home/nofrets.poai/pten/PTEN_OUT:/downloads
+#   - /home/nofrets.poai/pten:/pten
 #    environment:
 #      - POSTGRES_HOST=${POSTGRES_HOST}
 #      - POSTGRES_PORT=${POSTGRES_PORT}

@@ -29,7 +29,7 @@ public class PtenServiceImpl implements PtenService {
             "/home/prisma_link/PTEN_OUT";
 
     private static final String LOCAL_DIR =
-            "/downloads";
+            "/pten/PTEN_OUT";
 
     @Value("${pten.sftp.username}")
     private String ptenSftpUsername;
