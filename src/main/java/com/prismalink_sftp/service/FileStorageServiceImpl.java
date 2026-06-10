@@ -1,5 +1,7 @@
 package com.prismalink_sftp.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +13,8 @@ import java.nio.file.StandardCopyOption;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageServiceImpl.class);
 
     private final String UPLOAD_DIR = "/home/nofrets.poai/pten/PTEN_IN/";
 
@@ -47,7 +51,9 @@ public class FileStorageServiceImpl implements FileStorageService {
         try {
 
             Path uploadPath = Paths.get(UPLOAD_DIR + folderName);
+            LOGGER.info("uploadPath {}", uploadPath);
 
+            LOGGER.info("!Files.exists(uploadPath) {}", !Files.exists(uploadPath));
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
@@ -56,6 +62,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
             Path destination =
                     uploadPath.resolve(fileName);
+            LOGGER.info("destination {}", destination);
 
             Files.copy(
                     file.getInputStream(),
