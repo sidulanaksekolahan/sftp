@@ -16,7 +16,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageServiceImpl.class);
 
-    private final String UPLOAD_DIR = "/home/nofrets.poai/pten/PTEN_IN/";
+    private final String UPLOAD_DIR = "/pten/PTEN_IN/";
 
     @Override
     public String upload(MultipartFile file) {
