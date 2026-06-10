@@ -66,20 +66,52 @@ public class MerchantOnBoardingController {
     @GetMapping("/upload/{folderName}")
     public String upload(@PathVariable("folderName") String folderName) {
 
+//        try {
+//            ProcessBuilder processBuilder =
+//                    new ProcessBuilder("sh", "/pten/upload_pten_sftp.sh", "in", folderName);
+//
+//            Process process = processBuilder.start();
+//
+//            int exitCode = process.waitFor();
+//
+////            return new String(
+////                    process.getInputStream().readAllBytes());
+//
+//            return "Exit Code = " + exitCode;
+//        } catch (Exception e) {
+//            LOGGER.error(e.getMessage());
+//            throw new RuntimeException(e);
+//        }
+
         try {
+
             ProcessBuilder processBuilder =
-                    new ProcessBuilder("sh", "/pten/upload_pten_sftp.sh", "in", folderName);
+                    new ProcessBuilder(
+                            "sh",
+                            "/pten/upload_pten_sftp_v2.sh",
+                            "in",
+                            folderName);
 
-            Process process = processBuilder.start();
+            processBuilder.redirectErrorStream(true);
 
-            int exitCode = process.waitFor();
+            Process process =
+                    processBuilder.start();
 
-//            return new String(
-//                    process.getInputStream().readAllBytes());
+            String output =
+                    new String(
+                            process.getInputStream()
+                                    .readAllBytes());
 
-            return "Exit Code = " + exitCode;
+            int exitCode =
+                    process.waitFor();
+
+            return "ExitCode="
+                    + exitCode
+                    + "\n\n"
+                    + output;
+
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+
             throw new RuntimeException(e);
         }
     }
