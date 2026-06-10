@@ -3,6 +3,8 @@ package com.prismalink_sftp.controller;
 import com.prismalink_sftp.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/merchant-onboarding")
 public class MerchantOnBoardingController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MerchantOnBoardingController.class);
 
     private final FileStorageService fileStorageService;
 
@@ -60,15 +64,24 @@ public class MerchantOnBoardingController {
             description = "Upload folder ke server PTEN dengan folder name yang ditentukan"
     )
     @GetMapping("/upload/{folderName}")
-    public String upload(@PathVariable("folderName") String folderName) throws Exception {
+    public String upload(@PathVariable("folderName") String folderName) {
 
-        ProcessBuilder processBuilder =
-                new ProcessBuilder("sh", "/pten/upload_pten_sftp.sh", "in", folderName);
+        try {
+            ProcessBuilder processBuilder =
+                    new ProcessBuilder("sh", "/pten/upload_pten_sftp.sh", "in", folderName);
 
-        Process process = processBuilder.start();
+            Process process = processBuilder.start();
 
-        return new String(
-                process.getInputStream().readAllBytes());
+            int exitCode = process.waitFor();
+
+//            return new String(
+//                    process.getInputStream().readAllBytes());
+
+            return "Exit Code = " + exitCode;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
 //    @Operation(
