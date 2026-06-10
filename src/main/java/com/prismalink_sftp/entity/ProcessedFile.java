@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "processed_file")
@@ -20,7 +21,7 @@ public class ProcessedFile {
 
     @CreationTimestamp
     @Column(name = "downloaded_at", updatable = false)
-    private LocalDateTime downloadedAt;
+    private OffsetDateTime downloadedAt;
 
     public ProcessedFile() {
 
@@ -47,11 +48,11 @@ public class ProcessedFile {
         this.folderName = folderName;
     }
 
-    public LocalDateTime getDownloadedAt() {
+    public OffsetDateTime getDownloadedAt() {
         return downloadedAt;
     }
 
-    public void setDownloadedAt(LocalDateTime downloadedAt) {
+    public void setDownloadedAt(OffsetDateTime downloadedAt) {
         this.downloadedAt = downloadedAt;
     }
 }
