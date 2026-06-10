@@ -1,6 +1,10 @@
 # Menggunakan base image resmi Java 11 JRE dari Eclipse Temurin
 FROM eclipse-temurin:11-jre
 
+RUN apt-get update && \
+    apt-get install -y sshpass && \
+    rm -rf /var/lib/apt/lists/*
+
 # Menentukan direktori kerja di dalam container
 WORKDIR /app
 
