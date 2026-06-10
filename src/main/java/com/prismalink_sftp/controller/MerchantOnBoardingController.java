@@ -56,14 +56,14 @@ public class MerchantOnBoardingController {
     }
 
     @Operation(
-            summary = "Upload folder",
-            description = "Upload folder dengan variable nama folder yang ditentukan"
+            summary = "Upload folder ke server PTEN",
+            description = "Upload folder ke server PTEN dengan folder name yang ditentukan"
     )
     @GetMapping("/upload/{folderName}")
     public String upload(@PathVariable("folderName") String folderName) throws Exception {
 
         ProcessBuilder processBuilder =
-                new ProcessBuilder("sh", "upload_pten_sftp.sh", "in", folderName);
+                new ProcessBuilder("sh", "/pten/upload_pten_sftp.sh", "in", folderName);
 
         Process process = processBuilder.start();
 
@@ -71,23 +71,23 @@ public class MerchantOnBoardingController {
                 process.getInputStream().readAllBytes());
     }
 
+//    @Operation(
+//            summary = "Upload file saja",
+//            description = "Upload file yang akan dikirim ke PTEN"
+//    )
+//    @PostMapping("/upload")
+//    public ResponseEntity<String> upload(@RequestParam("files") List<MultipartFile> files) {
+//
+//        for (MultipartFile file : files) {
+//            fileStorageService.upload(file);
+//        }
+//
+//        return ResponseEntity.ok("Successfully uploaded files");
+//    }
+
     @Operation(
-            summary = "Upload file saja",
-            description = "Upload file yang akan dikirim ke PTEN"
-    )
-    @PostMapping("/upload")
-    public ResponseEntity<String> upload(@RequestParam("files") List<MultipartFile> files) {
-
-        for (MultipartFile file : files) {
-            fileStorageService.upload(file);
-        }
-
-        return ResponseEntity.ok("Successfully uploaded files");
-    }
-
-    @Operation(
-            summary = "Upload file kedalam folder",
-            description = "Upload file kedalam parameter folder yang ditentukan"
+            summary = "Upload file kedalam folder PTEN_IN",
+            description = "Upload file kedalam folder PTEN_IN dengan menentukan folder name"
     )
     @PostMapping("/uploadFile/{folderName}")
     public ResponseEntity<String> uploadFile(@RequestParam("files") List<MultipartFile> files, @PathVariable String folderName) {
@@ -99,23 +99,23 @@ public class MerchantOnBoardingController {
         return ResponseEntity.ok("Successfully uploaded files");
     }
 
-    @Operation(
-            summary = "Membuat folder",
-            description = "Membuat folder. Contoh nama foldernya 20260608"
-    )
-    @GetMapping("/createFolder/{folderName}")
-    public String createFolder(@PathVariable("folderName") String folderName) throws Exception {
-
-        ProcessBuilder processBuilder =
-                new ProcessBuilder("mkdir", "-p", "/pten/PTEN_IN/" + folderName);
-
-        Process process = processBuilder.start();
-
-        int exitCode = process.waitFor();
-
-//        return new String(
-//                process.getInputStream().readAllBytes());
-
-        return "Exit Code = " + exitCode;
-    }
+//    @Operation(
+//            summary = "Membuat folder",
+//            description = "Membuat folder. Contoh nama foldernya 20260608"
+//    )
+//    @GetMapping("/createFolder/{folderName}")
+//    public String createFolder(@PathVariable("folderName") String folderName) throws Exception {
+//
+//        ProcessBuilder processBuilder =
+//                new ProcessBuilder("mkdir", "-p", "/pten/PTEN_IN/" + folderName);
+//
+//        Process process = processBuilder.start();
+//
+//        int exitCode = process.waitFor();
+//
+////        return new String(
+////                process.getInputStream().readAllBytes());
+//
+//        return "Exit Code = " + exitCode;
+//    }
 }
