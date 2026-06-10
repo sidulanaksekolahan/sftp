@@ -19,6 +19,8 @@ services:
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - EMAIL=${EMAIL:mirfan.duri@gmail.com}
+      - PASSWORD_EMAIL=${PASSWORD_EMAIL:password}
     depends_on:
       - postgres
 

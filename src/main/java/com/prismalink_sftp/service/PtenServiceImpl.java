@@ -7,12 +7,14 @@ import com.prismalink_sftp.entity.ProcessedFile;
 import com.prismalink_sftp.entity.ProcessedFolder;
 import com.prismalink_sftp.repository.ProcessedFileRepository;
 import com.prismalink_sftp.repository.ProcessedFolderRepository;
+import com.prismalink_sftp.utils.ZipUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,10 +49,17 @@ public class PtenServiceImpl implements PtenService {
 
     private final ProcessedFileRepository fileRepository;
 
+    private final EmailService emailService;
+
+    private final ZipUtil zipUtil;
+
     @Autowired
-    public PtenServiceImpl(ProcessedFolderRepository folderRepository, ProcessedFileRepository fileRepository) {
+    public PtenServiceImpl(ProcessedFolderRepository folderRepository, ProcessedFileRepository fileRepository,
+                           EmailService emailService, ZipUtil zipUtil) {
         this.folderRepository = folderRepository;
         this.fileRepository = fileRepository;
+        this.emailService = emailService;
+        this.zipUtil = zipUtil;
     }
 
     @Override
@@ -315,6 +324,14 @@ public class PtenServiceImpl implements PtenService {
 
             Path downloadedFile =
                     Paths.get(localFile);
+
+            // send email
+            File zipFile =
+                    zipUtil.zipFile(
+                            downloadedFile);
+
+            emailService.sendZipFile(
+                    zipFile);
 
             LOGGER.info(
                     "exists={}",
