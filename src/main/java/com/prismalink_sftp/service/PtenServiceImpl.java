@@ -162,7 +162,7 @@ public class PtenServiceImpl implements PtenService {
 
         for (String batchFolder : batchFolders) {
 
-            LOGGER.info("batchFolder: {}", batchFolder);
+//            LOGGER.info("batchFolder: {}", batchFolder);
 
             processBatchFolder(
                     channel,
@@ -187,11 +187,11 @@ public class PtenServiceImpl implements PtenService {
                 listFiles(
                         channel,
                         remoteBatchFolder);
-        LOGGER.info("files: {}", files);
+//        LOGGER.info("files: {}", files);
 
         for (String fileName : files) {
 
-            LOGGER.info("fileName: {}", fileName);
+//            LOGGER.info("fileName: {}", fileName);
 
             String uniqueKey =
                     dateFolder +
@@ -199,8 +199,8 @@ public class PtenServiceImpl implements PtenService {
                             batchFolder +
                             "/" +
                             fileName;
-            LOGGER.info("uniqueKey: {}", uniqueKey);
-            LOGGER.info("!fileRepository.existsById(uniqueKey): {}", !fileRepository.existsById(uniqueKey));
+//            LOGGER.info("uniqueKey: {}", uniqueKey);
+//            LOGGER.info("!fileRepository.existsById(uniqueKey): {}", !fileRepository.existsById(uniqueKey));
 
             if (!fileRepository.existsById(
                     uniqueKey)) {
@@ -279,8 +279,8 @@ public class PtenServiceImpl implements PtenService {
                             dateFolder,
                             batchFolder);
 
-            LOGGER.info("localDir absolute: {}",
-                    localDir.toAbsolutePath());
+//            LOGGER.info("localDir absolute: {}",
+//                    localDir.toAbsolutePath());
 
             Files.createDirectories(
                     localDir);
@@ -301,8 +301,8 @@ public class PtenServiceImpl implements PtenService {
                             + fileName;
             LOGGER.info("localFile: {}", localFile);
 
-            LOGGER.info("localFile absolute: {}",
-                    Paths.get(localFile).toAbsolutePath());
+//            LOGGER.info("localFile absolute: {}",
+//                    Paths.get(localFile).toAbsolutePath());
 
 //            // ############## testing
 //            Path testFile =
