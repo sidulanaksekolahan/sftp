@@ -37,8 +37,7 @@ public class EmailServiceImpl implements EmailService {
 
 //            helper.setCc(
 //                    new String[]{
-//                            "muhammadirfanit99@gmail.com",
-//                            "admin@nucsaping.id"
+//                            "muhammadirfanit99@gmail.com"
 //                    });
 
             helper.setSubject(
