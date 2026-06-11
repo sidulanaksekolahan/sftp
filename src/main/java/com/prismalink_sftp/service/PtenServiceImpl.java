@@ -53,13 +53,16 @@ public class PtenServiceImpl implements PtenService {
 
     private final ZipUtil zipUtil;
 
+    private final FeedbackExcelService feedbackExcelService;
+
     @Autowired
     public PtenServiceImpl(ProcessedFolderRepository folderRepository, ProcessedFileRepository fileRepository,
-                           EmailService emailService, ZipUtil zipUtil) {
+                           EmailService emailService, ZipUtil zipUtil, FeedbackExcelService feedbackExcelService) {
         this.folderRepository = folderRepository;
         this.fileRepository = fileRepository;
         this.emailService = emailService;
         this.zipUtil = zipUtil;
+        this.feedbackExcelService = feedbackExcelService;
     }
 
     @Override
@@ -282,8 +285,7 @@ public class PtenServiceImpl implements PtenService {
 //            LOGGER.info("localDir absolute: {}",
 //                    localDir.toAbsolutePath());
 
-            Files.createDirectories(
-                    localDir);
+            Files.createDirectories(localDir);
 
             String remoteFile =
                     REMOTE_DIR
@@ -319,40 +321,37 @@ public class PtenServiceImpl implements PtenService {
 //            // ############## testing
 
             // Download file dari server PTEN
-            channel.get(
-                    remoteFile,
-                    localFile);
+            channel.get(remoteFile, localFile);
 
-            Path downloadedFile =
-                    Paths.get(localFile);
+            if (isExcelFile(fileName)) {
+                feedbackExcelService.processExcel(localFile);
+            }
+
+            Path downloadedFile = Paths.get(localFile);
 
             // send email
-            File zipFile =
-                    zipUtil.zipFile(
-                            downloadedFile);
+            File zipFile = zipUtil.zipFile(downloadedFile);
 
-            emailService.sendZipFile(
-                    zipFile);
+            emailService.sendZipFile(zipFile);
 
-            LOGGER.info(
-                    "exists={}",
-                    Files.exists(downloadedFile));
+            LOGGER.info("exists={}", Files.exists(downloadedFile));
 
-            LOGGER.info(
-                    "size={}",
-                    Files.size(downloadedFile));
+            LOGGER.info("size={}", Files.size(downloadedFile));
 
-            LOGGER.info(
-                    "user={}",
-                    System.getProperty("user.name"));
+            LOGGER.info("user={}", System.getProperty("user.name"));
 
-            LOGGER.info(
-                    "Downloaded {}",
-                    remoteFile);
+            LOGGER.info("Downloaded {}", remoteFile);
 
         } catch (Exception e) {
 
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean isExcelFile(String fileName) {
+
+        String lower = fileName.toLowerCase();
+
+        return lower.endsWith(".xlsx") || lower.endsWith(".xls") || lower.endsWith(".xlsm");
     }
 }
