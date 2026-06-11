@@ -318,6 +318,7 @@ public class PtenServiceImpl implements PtenService {
 //                    Files.exists(testFile));
 //            // ############## testing
 
+            // Download file dari server PTEN
             channel.get(
                     remoteFile,
                     localFile);
